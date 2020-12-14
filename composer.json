@@ -20,6 +20,19 @@
     "support": {
         "email": "heloufir@alvariumdigital.com"
     },
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AlvariumDigital\\WorkflowMakr\\WorkflowMakrServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Heloufir\\SecurityStarter\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
-    "require": {}
+    "prefer-stable" : true
 }
