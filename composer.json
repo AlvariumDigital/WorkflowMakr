@@ -1,0 +1,25 @@
+{
+    "name": "AlvariumDigital/WorkflowMakr",
+    "description": "Generalize the management of your workflows",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alvarium Digital",
+            "email": "contact@alvariumdigital.com",
+            "homepage": "http://www.alvariumdigital.com",
+            "role": "Corporate"
+        },
+        {
+            "name": "EL OUFIR Hatim",
+            "email": "heloufir@alvariumdigital.com",
+            "homepage": "https://www.linkedin.com/in/eloufirhatim/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "heloufir@alvariumdigital.com"
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
