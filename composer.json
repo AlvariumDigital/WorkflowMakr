@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heloufir\\SecurityStarter\\": "src/"
+            "AlvariumDigital\\WorkflowMakr\\": "src/"
         }
     },
     "minimum-stability": "dev",
