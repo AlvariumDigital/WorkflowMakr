@@ -2,10 +2,11 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
-use AlvariumDigital\WorkflowMakr\Models\Action;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
-use Illuminate\Routing\Controller;
+use AlvariumDigital\WorkflowMakr\Models\Action;
+use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ActionController extends Controller
@@ -92,7 +93,10 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        $action->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (Transition::where('action_id', $action->id)->count() == 0) {
+            $action->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The action is used by an active transition'], 422);
     }
 }
