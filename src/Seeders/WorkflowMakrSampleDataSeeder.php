@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace AlvariumDigital\WorkflowMakr\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
