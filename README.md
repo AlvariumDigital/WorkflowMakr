@@ -25,8 +25,8 @@ Please refer to the [WIKI](https://github.com/AlvariumDigital/WorkflowMakr/wiki)
 
 ## Contributing
 
-Toutes les contributions sont les bienvenus pour rendre ce package plus générique et répond à plus de besoin.
-Si vous avez des suggestions n'hésitez pas de nous les envoyer par email [contact@alvariumdigital.com](mailto:contact@alvariumdigital.com)
+All contributions are welcome to make this package more generic and meet more need.
+If you have any suggestions please send them to us by email [contact@alvariumdigital.com](mailto:contact@alvariumdigital.com)
 
 ## Security Vulnerabilities
 
