@@ -2,10 +2,11 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
-use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
-use Illuminate\Routing\Controller;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
+use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ScenarioController extends Controller
@@ -93,7 +94,10 @@ class ScenarioController extends Controller
      */
     public function destroy(Scenario $scenario)
     {
-        $scenario->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (Transition::where('scenario_id', $scenario->id)->count() == 0) {
+            $scenario->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The scenario contains at least an active transition'], 422);
     }
 }
