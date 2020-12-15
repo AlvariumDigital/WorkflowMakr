@@ -4,6 +4,7 @@ namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
 use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
+use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -92,7 +93,10 @@ class StatusController extends Controller
      */
     public function destroy(Status $status)
     {
-        $status->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (Transition::where('old_status_id', $status->id)->orWhere('new_status_id', $status->id)->count() == 0) {
+            $status->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The status is used by an active transition'], 422);
     }
 }
