@@ -2,6 +2,7 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
+use AlvariumDigital\WorkflowMakr\Models\History;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Rules\TransitionUnique;
@@ -108,7 +109,10 @@ class TransitionController extends Controller
      */
     public function destroy(Transition $transition)
     {
-        $transition->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (History::where('transition_id', $transition->id)->count() == 0) {
+            $transition->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The transition is already used'], 422);
     }
 }
