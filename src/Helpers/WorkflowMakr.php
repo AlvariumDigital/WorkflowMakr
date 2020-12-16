@@ -22,10 +22,11 @@ interface WorkflowMakr
      *
      * @param int $transition_id The transition id
      * @param mixed $performed_by The transition performer primary key value
+     * @param string|null $performed_by_model The transition performer model class to override the default value
      *
      * @return void
      */
-    public function makeATransition(int $transition_id, $performed_by): void;
+    public function makeATransition(int $transition_id, $performed_by, $performed_by_model = null): void;
 
     /**
      * Rollback a transition
