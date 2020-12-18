@@ -16,6 +16,8 @@ class Transition extends Model
     protected $table = 'workflow_makr_transitions';
     protected $primaryKey = 'id';
 
+    protected $with = ['children', 'old_status', 'new_status', 'action'];
+
     protected $fillable = ['old_status_id', 'new_status_id', 'scenario_id', 'action_id', 'created_at', 'updated_at'];
 
     public function scenario(): BelongsTo
@@ -41,5 +43,10 @@ class Transition extends Model
     public function histories(): HasMany
     {
         return $this->hasMany(History::class, 'transition_id', 'id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Transition::class, 'predecessor_id', 'id');
     }
 }

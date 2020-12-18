@@ -20,6 +20,7 @@ class TransitionController extends Controller
     public function index()
     {
         $query = Transition::query();
+        $query->with(['scenario']);
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }
@@ -43,7 +44,8 @@ class TransitionController extends Controller
                 'exists:' . Constants::TABLES['STATUSES'] . ',id',
                 new TransitionUnique($request->get('old_status_id'), $request->get('new_status_id'), $request->get('scenario_id'), $request->get('action_id'))
             ],
-            'action_id' => 'required|exists:' . Constants::TABLES['ACTIONS'] . ',id'
+            'action_id' => 'required|exists:' . Constants::TABLES['ACTIONS'] . ',id',
+            'predecessor_id' => 'nullable|exists:' . Constants::TABLES['TRANSITIONS'] . ',id'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
@@ -53,6 +55,7 @@ class TransitionController extends Controller
         $transition->old_status_id = $request->get('old_status_id');
         $transition->new_status_id = $request->get('new_status_id');
         $transition->action_id = $request->get('action_id');
+        $transition->predecessor_id = $request->get('predecessor_id');
         $transition->save();
         return response()->json($transition, 200);
     }
@@ -66,7 +69,7 @@ class TransitionController extends Controller
      */
     public function show(Transition $transition)
     {
-        $transition = Transition::where('id', $transition->id)->with(['scenario', 'old_status', 'new_status', 'action'])->first();
+        $transition = Transition::where('id', $transition->id)->with(['scenario'])->first();
         return response()->json($transition, 200);
     }
 
@@ -87,7 +90,8 @@ class TransitionController extends Controller
                 'exists:' . Constants::TABLES['STATUSES'] . ',id',
                 new TransitionUnique($request->get('old_status_id'), $request->get('new_status_id'), $request->get('scenario_id'), $request->get('action_id'), $transition->id)
             ],
-            'action_id' => 'required|exists:' . Constants::TABLES['ACTIONS'] . ',id'
+            'action_id' => 'required|exists:' . Constants::TABLES['ACTIONS'] . ',id',
+            'predecessor_id' => 'nullable|exists:' . Constants::TABLES['TRANSITIONS'] . ',id'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
@@ -95,6 +99,7 @@ class TransitionController extends Controller
         $transition->old_status_id = $request->get('old_status_id');
         $transition->new_status_id = $request->get('new_status_id');
         $transition->action_id = $request->get('action_id');
+        $transition->predecessor_id = $request->get('predecessor_id');
         $transition->save();
         return response()->json($transition, 200);
     }

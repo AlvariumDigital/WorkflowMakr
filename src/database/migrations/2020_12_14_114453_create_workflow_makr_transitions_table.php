@@ -19,10 +19,12 @@ class CreateWorkflowMakrTransitionsTable extends Migration
             $table->unsignedBigInteger('new_status_id');
             $table->unsignedBigInteger('scenario_id');
             $table->unsignedBigInteger('action_id');
+            $table->unsignedBigInteger('predecessor_id')->nullable(true);
             $table->foreign('old_status_id')->references('id')->on('workflow_makr_statuses');
             $table->foreign('new_status_id')->references('id')->on('workflow_makr_statuses');
             $table->foreign('scenario_id')->references('id')->on('workflow_makr_scenarios');
             $table->foreign('action_id')->references('id')->on('workflow_makr_actions');
+            $table->foreign('predecessor_id')->references('id')->on('workflow_makr_transitions');
             $table->timestamps();
             $table->softDeletes();
         });
