@@ -15,7 +15,6 @@ class CreateWorkflowMakrScenariosTable extends Migration
     {
         Schema::create('workflow_makr_scenarios', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 50);
             $table->string('designation', 255);
             $table->timestamps();
             $table->softDeletes();

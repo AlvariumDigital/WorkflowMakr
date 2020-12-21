@@ -116,7 +116,7 @@ trait WorkflowMakrUtilities
     public function histories(): HasMany
     {
         $model = app(get_class());
-        return $this->hasMany(History::class, 'model_id', $this->{$model->getKeyName()})->where('model', get_class());
+        return $this->hasMany(History::class, 'model_id', $model->getKeyName())->where('model', get_class());
     }
 
     /**

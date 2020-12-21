@@ -36,7 +36,6 @@ class ScenarioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['SCENARIOS'] . ',code,NULL,id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
@@ -73,7 +72,6 @@ class ScenarioController extends Controller
     public function update(Request $request, Scenario $scenario)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['SCENARIOS'] . ',code,' . $scenario->id . ',id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
