@@ -2,12 +2,12 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
+use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Models\History;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
-use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Rules\TransitionUnique;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class TransitionController extends Controller
@@ -114,10 +114,31 @@ class TransitionController extends Controller
      */
     public function destroy(Transition $transition)
     {
-        if (History::where('transition_id', $transition->id)->count() == 0) {
-            $transition->delete();
+        $transitions = $this->transitionIdsToDelete($transition);
+        if (History::whereIn('transition_id', $transitions)->count() == 0) {
+            Transition::whereIn('id', $transitions)->delete();
             return response()->json(['status' => 'success'], 200);
         }
         return response()->json(['status' => 'failed', 'message' => 'The transition is already used'], 422);
+    }
+
+    /**
+     * Get transitions and children (recursively) IDs to delete
+     * @param int|Transition $transition
+     * @return array
+     */
+    private function transitionIdsToDelete($transition)
+    {
+        if (!$transition instanceof Transition) {
+            $transition = Transition::where('id', $transition)->first();
+        }
+        $results = [];
+        array_push($results, $transition->id);
+        foreach ($transition->children as $child) {
+            foreach ($this->transitionIdsToDelete($child->id) as $t) {
+                array_push($results, $t);
+            }
+        }
+        return $results;
     }
 }
