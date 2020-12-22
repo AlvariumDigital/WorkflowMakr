@@ -2,10 +2,11 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
-use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
-use Illuminate\Routing\Controller;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
+use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ScenarioController extends Controller
@@ -18,6 +19,7 @@ class ScenarioController extends Controller
     public function index()
     {
         $query = Scenario::query();
+        $query->with(['transitions']);
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }
@@ -34,7 +36,6 @@ class ScenarioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['SCENARIOS'] . ',code,NULL,id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
@@ -71,7 +72,6 @@ class ScenarioController extends Controller
     public function update(Request $request, Scenario $scenario)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['SCENARIOS'] . ',code,' . $scenario->id . ',id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
@@ -93,7 +93,10 @@ class ScenarioController extends Controller
      */
     public function destroy(Scenario $scenario)
     {
-        $scenario->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (Transition::where('scenario_id', $scenario->id)->count() == 0) {
+            $scenario->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The scenario contains at least an active transition'], 422);
     }
 }

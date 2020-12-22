@@ -2,10 +2,11 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
-use AlvariumDigital\WorkflowMakr\Models\Action;
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
-use Illuminate\Routing\Controller;
+use AlvariumDigital\WorkflowMakr\Models\Action;
+use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ActionController extends Controller
@@ -34,7 +35,6 @@ class ActionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['ACTIONS'] . ',code,NULL,id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
@@ -70,7 +70,6 @@ class ActionController extends Controller
     public function update(Request $request, Action $action)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required|max:50|unique:' . Constants::TABLES['ACTIONS'] . ',code,' . $action->id . ',id,deleted_at,NULL',
             'designation' => 'required|max:255'
         ]);
         if ($validator->fails()) {
@@ -92,7 +91,10 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        $action->delete();
-        return response()->json(['status' => 'success'], 200);
+        if (Transition::where('action_id', $action->id)->count() == 0) {
+            $action->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'failed', 'message' => 'The action is used by an active transition'], 422);
     }
 }

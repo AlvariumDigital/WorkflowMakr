@@ -19,6 +19,6 @@ class Scenario extends Model
 
     public function transitions(): HasMany
     {
-        return $this->hasMany(Transition::class, 'scenario_id', 'id');
+        return $this->hasMany(Transition::class, 'scenario_id', 'id')->whereNull('predecessor_id');
     }
 }

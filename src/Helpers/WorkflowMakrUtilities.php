@@ -30,10 +30,11 @@ trait WorkflowMakrUtilities
      *
      * @param int $transition_id The transition id
      * @param mixed $performed_by The transition performer primary key value
+     * @param string|null $performed_by_model The transition performer model class to override the default value
      *
      * @return void
      */
-    public function makeATransition(int $transition_id, $performed_by): void
+    public function makeATransition(int $transition_id, $performed_by, $performed_by_model = null): void
     {
         try {
             $transition = Transition::where('id', $transition_id)->firstOrFail();
@@ -57,7 +58,7 @@ trait WorkflowMakrUtilities
                 $history = new History();
                 $history->model = get_class();
                 $history->model_id = $this->{$model->getKeyName()};
-                $history->performed_by_model = $this->transition_performer();
+                $history->performed_by_model = $performed_by_model ?? $this->transition_performer();
                 $history->performed_by = $performed_by;
                 $history->transition_id = $transition->id;
                 $history->performed_at = Carbon::now();
@@ -115,7 +116,7 @@ trait WorkflowMakrUtilities
     public function histories(): HasMany
     {
         $model = app(get_class());
-        return $this->hasMany(History::class, 'model_id', $this->{$model->getKeyName()})->where('model', get_class());
+        return $this->hasMany(History::class, 'model_id', $model->getKeyName())->where('model', get_class());
     }
 
     /**
