@@ -2,7 +2,6 @@
 
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
-use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Models\Action;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
@@ -19,6 +18,9 @@ class ActionController extends Controller
     public function index()
     {
         $query = Action::query();
+        if (request()->get('q')) {
+            $query->whereRaw('LOWER(`designation`) LIKE ?', ['%' . request()->get('q') . '%']);
+        }
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }

@@ -3,10 +3,9 @@
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
 use AlvariumDigital\WorkflowMakr\Models\Status;
-use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class StatusController extends Controller
@@ -19,6 +18,9 @@ class StatusController extends Controller
     public function index()
     {
         $query = Status::query();
+        if (request()->get('q')) {
+            $query->whereRaw('LOWER(`designation`) LIKE ?', ['%' . request()->get('q') . '%']);
+        }
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }
