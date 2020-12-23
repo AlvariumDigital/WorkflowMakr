@@ -66,7 +66,7 @@ class TransitionController extends Controller
         }
         $action = Action::where('designation', 'LIKE', '%' . $request->json()->get('action') . '%')->first();
         if ($action == null) {
-            $action = new Status();
+            $action = new Action();
             $action->designation = $request->json()->get('action');
             $action->save();
         }
@@ -137,7 +137,7 @@ class TransitionController extends Controller
         }
         $action = Action::where('designation', 'LIKE', '%' . $request->json()->get('action') . '%')->first();
         if ($action == null) {
-            $action = new Status();
+            $action = new Action();
             $action->designation = $request->json()->get('action');
             $action->save();
         }
