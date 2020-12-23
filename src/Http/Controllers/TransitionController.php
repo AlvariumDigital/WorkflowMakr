@@ -51,20 +51,20 @@ class TransitionController extends Controller
         }
         $old_status = null;
         if ($request->json()->get('old_status')) {
-            $old_status = Status::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('old_status'))])->first();
+            $old_status = Status::where('designation', 'LIKE', '%' . $request->json()->get('old_status') . '%')->first();
             if ($old_status == null) {
                 $old_status = new Status();
                 $old_status->designation = $request->json()->get('old_status');
                 $old_status->save();
             }
         }
-        $new_status = Status::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('new_status'))])->first();
+        $new_status = Status::where('designation', 'LIKE', '%' . $request->json()->get('new_status') . '%')->first();
         if ($new_status == null) {
             $new_status = new Status();
             $new_status->designation = $request->json()->get('new_status');
             $new_status->save();
         }
-        $action = Action::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('action'))])->first();
+        $action = Action::where('designation', 'LIKE', '%' . $request->json()->get('action') . '%')->first();
         if ($action == null) {
             $action = new Status();
             $action->designation = $request->json()->get('action');
@@ -122,20 +122,20 @@ class TransitionController extends Controller
         }
         $old_status = null;
         if ($request->json()->get('old_status')) {
-            $old_status = Status::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('old_status'))])->first();
+            $old_status = Status::where('designation', 'LIKE', '%' . $request->json()->get('old_status') . '%')->first();
             if ($old_status == null) {
                 $old_status = new Status();
                 $old_status->designation = $request->json()->get('old_status');
                 $old_status->save();
             }
         }
-        $new_status = Status::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('new_status'))])->first();
+        $new_status = Status::where('designation', 'LIKE', '%' . $request->json()->get('new_status') . '%')->first();
         if ($new_status == null) {
             $new_status = new Status();
             $new_status->designation = $request->json()->get('new_status');
             $new_status->save();
         }
-        $action = Action::whereRaw('LOWER(`designation`) = ?', [Str::lower($request->json()->get('action'))])->first();
+        $action = Action::where('designation', 'LIKE', '%' . $request->json()->get('action') . '%')->first();
         if ($action == null) {
             $action = new Status();
             $action->designation = $request->json()->get('action');
