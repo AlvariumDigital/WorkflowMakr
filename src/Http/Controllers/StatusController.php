@@ -19,7 +19,7 @@ class StatusController extends Controller
     {
         $query = Status::query();
         if (request()->get('q')) {
-            $query->whereRaw('LOWER(`designation`) LIKE ?', ['%' . request()->get('q') . '%']);
+            $query->where('designation', 'LIKE', '%' . request()->get('q') . '%');
         }
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);

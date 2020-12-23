@@ -19,7 +19,7 @@ class ActionController extends Controller
     {
         $query = Action::query();
         if (request()->get('q')) {
-            $query->whereRaw('LOWER(`designation`) LIKE ?', ['%' . request()->get('q') . '%']);
+            $query->where('designation', 'LIKE', '%' . request()->get('q') . '%');
         }
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
