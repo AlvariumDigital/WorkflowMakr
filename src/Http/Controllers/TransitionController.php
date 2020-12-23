@@ -43,7 +43,7 @@ class TransitionController extends Controller
             'scenario_id' => 'required|exists:' . Constants::TABLES['SCENARIOS'] . ',id',
             'old_status' => 'nullable',
             'new_status' => 'required',
-            'action' => 'required|exists:' . Constants::TABLES['ACTIONS'] . ',id',
+            'action' => 'required',
             'predecessor_id' => 'nullable|exists:' . Constants::TABLES['TRANSITIONS'] . ',id'
         ]);
         if ($validator->fails()) {
