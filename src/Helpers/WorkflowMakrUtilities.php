@@ -120,6 +120,37 @@ trait WorkflowMakrUtilities
     }
 
     /**
+     * Return the possible transitions based on the model current status and scenario id
+     *
+     * @return array
+     */
+    public function getNextTransitionsAttribute(): array
+    {
+        if ($this->linkedScenario()) {
+            $query = Transition::query();
+            $query->where('scenario_id', $this->linkedScenario());
+            if ($this->status) {
+                $query->where('old_status_id', $this->status->id);
+            } else {
+                $query->whereNull('old_status_id');
+            }
+            return $query->get()->toArray();
+        }
+        return [];
+    }
+
+    /**
+     * Return the model's linked workflow scenario id
+     * If 0, no scenario will be linked
+     *
+     * @return int
+     */
+    public function linkedScenario(): int
+    {
+        return 0;
+    }
+
+    /**
      * Get the current status of the model
      *
      * @return Status|null

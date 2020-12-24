@@ -41,6 +41,21 @@ interface WorkflowMakr
     public function histories(): HasMany;
 
     /**
+     * Return the possible transitions based on the model current status and scenario id
+     *
+     * @return array
+     */
+    public function getNextTransitionsAttribute(): array;
+
+    /**
+     * Return the model's linked workflow scenario id
+     * If 0, no scenario will be linked
+     *
+     * @return int
+     */
+    public function linkedScenario(): int;
+
+    /**
      * Get the current status of the model
      *
      * @return Status|null
