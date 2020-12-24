@@ -121,10 +121,8 @@ trait WorkflowMakrUtilities
 
     /**
      * Return the possible transitions based on the model current status and scenario id
-     *
-     * @return array
      */
-    public function getNextTransitionsAttribute(): array
+    public function getNextTransitionsAttribute()
     {
         if ($this->linkedScenario()) {
             $query = Transition::query();
@@ -134,9 +132,9 @@ trait WorkflowMakrUtilities
             } else {
                 $query->whereNull('old_status_id');
             }
-            return $query->get()->toArray();
+            return $query->get();
         }
-        return [];
+        return collect([]);
     }
 
     /**
