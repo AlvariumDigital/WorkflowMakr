@@ -45,7 +45,7 @@ interface WorkflowMakr
      *
      * @return array
      */
-    public function getNextTransitionsAttribute(): array;
+    public function getNextTransitionsAttribute();
 
     /**
      * Return the model's linked workflow scenario id

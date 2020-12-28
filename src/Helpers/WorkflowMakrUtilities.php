@@ -122,7 +122,7 @@ trait WorkflowMakrUtilities
     /**
      * Return the possible transitions based on the model current status and scenario id
      */
-    public function getNextTransitionsAttribute(): array
+    public function getNextTransitionsAttribute()
     {
         if ($this->linkedScenario()) {
             $query = Transition::query();
