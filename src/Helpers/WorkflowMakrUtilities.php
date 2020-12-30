@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Log;
 trait WorkflowMakrUtilities
 {
     /**
-     * Make a transition to the model
+     * Make a transition to the mHiodel
      *
      * @param int $transition_id The transition id
      * @param mixed $performed_by The transition performer primary key value
