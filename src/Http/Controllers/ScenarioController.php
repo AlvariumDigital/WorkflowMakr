@@ -42,7 +42,6 @@ class ScenarioController extends Controller
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
         }
         $scenario = new Scenario();
-        $scenario->code = $request->get('code');
         $scenario->designation = $request->get('designation');
         $scenario->save();
         return response()->json($scenario, 200);
@@ -77,7 +76,6 @@ class ScenarioController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
         }
-        $scenario->code = $request->get('code');
         $scenario->designation = $request->get('designation');
         $scenario->save();
         return response()->json($scenario, 200);
