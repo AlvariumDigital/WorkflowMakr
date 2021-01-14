@@ -36,14 +36,13 @@ class ScenarioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'designation' => 'required|max:255'
+            'designation' => 'required|max:255',
+            'entity' => 'nullable'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
         }
-        $scenario = new Scenario();
-        $scenario->designation = $request->get('designation');
-        $scenario->save();
+        $scenario = Scenario::create($request->only('designation', 'entity'));
         return response()->json($scenario, 200);
     }
 
@@ -56,7 +55,7 @@ class ScenarioController extends Controller
      */
     public function show(Scenario $scenario)
     {
-        $scenario = Scenario::where('id', $scenario->id)->with(['transitions'])->first();
+        $scenario->load('transitions');
         return response()->json($scenario, 200);
     }
 
@@ -71,13 +70,15 @@ class ScenarioController extends Controller
     public function update(Request $request, Scenario $scenario)
     {
         $validator = Validator::make($request->all(), [
-            'designation' => 'required|max:255'
+            'designation' => 'required|max:255',
+            'entity' => 'nullable'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 'form-validation-fails', 'messages' => $validator->getMessageBag()], 422);
         }
-        $scenario->designation = $request->get('designation');
-        $scenario->save();
+        $scenario->update(
+            $request->only('designation', 'entity')
+        );
         return response()->json($scenario, 200);
     }
 
@@ -91,7 +92,7 @@ class ScenarioController extends Controller
      */
     public function destroy(Scenario $scenario)
     {
-        if (Transition::where('scenario_id', $scenario->id)->count() == 0) {
+        if ($scenario->transitions()->count() == 0) {
             $scenario->delete();
             return response()->json(['status' => 'success'], 200);
         }
