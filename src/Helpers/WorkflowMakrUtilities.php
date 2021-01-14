@@ -145,7 +145,12 @@ trait WorkflowMakrUtilities
      */
     public function linkedScenario(): int
     {
-        return 0;
+        $scenario = Scenario::where('entity', get_class())->first();
+
+        if(is_null($scenario)){
+            return 0;
+        }
+        return $scenario->id;
     }
 
     /**
