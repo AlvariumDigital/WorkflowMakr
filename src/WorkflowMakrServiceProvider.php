@@ -62,7 +62,9 @@ class WorkflowMakrServiceProvider extends ServiceProvider
      */
     protected function registerMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        if (config('workflowmakr.migrations')) {
+            $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        }
     }
 
     /**
