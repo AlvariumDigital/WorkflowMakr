@@ -6,6 +6,7 @@ use AlvariumDigital\WorkflowMakr\Exceptions\TransitionNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionRollbackNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Models\History;
 use AlvariumDigital\WorkflowMakr\Models\ModelStatus;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Carbon\Carbon;
