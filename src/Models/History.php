@@ -21,6 +21,10 @@ class History extends Model
     {
         return $this->belongsTo(Transition::class, 'transition_id', 'id');
     }
+    
+    public function runner(){
+        return $this->morphTo(null, 'performed_by_model', 'performed_by');
+    }
 
     public function getPerformerAttribute()
     {

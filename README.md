@@ -2,6 +2,7 @@
 <p align="center">
 <a href="https://packagist.org/packages/alvarium-digital/workflow-makr"><img src="https://img.shields.io/packagist/dt/alvarium-digital/workflow-makr" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/alvarium-digital/workflow-makr"><img src="https://img.shields.io/packagist/v/alvarium-digital/workflow-makr" alt="Latest Stable Version"></a>
+<a href="https://github.com/AlvariumDigital/WorkflowMakr"><img src="https://img.shields.io/github/contributors/AlvariumDigital/WorkflowMakr" alt="Contributors"></a>
 <a href="https://packagist.org/packages/alvarium-digital/workflow-makr"><img src="https://img.shields.io/packagist/l/alvarium-digital/workflow-makr" alt="License"></a>
 </p>
 

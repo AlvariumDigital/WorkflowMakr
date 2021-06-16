@@ -46,4 +46,16 @@ return [
 
     'default_transition_performer' => \App\Models\User::class,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Migrations
+    |--------------------------------------------------------------------------
+    |
+    | Use the provided migrations for the workflow makr package
+    | If you publish the migrations set this to false.
+    |
+    */
+
+    'migrations' => true,
+
 ];

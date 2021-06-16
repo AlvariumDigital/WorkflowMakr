@@ -15,7 +15,7 @@ class Scenario extends Model
     protected $table = 'workflow_makr_scenarios';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['code', 'designation', 'created_at', 'updated_at'];
+    protected $fillable = ['designation', 'entity' , 'created_at', 'updated_at'];
 
     public function transitions(): HasMany
     {

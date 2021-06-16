@@ -6,6 +6,7 @@ use AlvariumDigital\WorkflowMakr\Exceptions\TransitionNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionRollbackNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Models\History;
 use AlvariumDigital\WorkflowMakr\Models\ModelStatus;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Log;
 trait WorkflowMakrUtilities
 {
     /**
-     * Make a transition to the model
+     * Make a transition to the mHiodel
      *
      * @param int $transition_id The transition id
      * @param mixed $performed_by The transition performer primary key value
@@ -145,7 +146,12 @@ trait WorkflowMakrUtilities
      */
     public function linkedScenario(): int
     {
-        return 0;
+        $scenario = Scenario::where('entity', get_class())->first();
+
+        if(is_null($scenario)){
+            return 0;
+        }
+        return $scenario->id;
     }
 
     /**
