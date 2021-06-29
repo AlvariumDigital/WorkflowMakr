@@ -2,7 +2,6 @@
 
 namespace AlvariumDigital\WorkflowMakr\Console\Commands;
 
-use AlvariumDigital\WorkflowMakr\Models\Status;
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,7 @@ class LinkModel extends Command
      *
      * @var string
      */
-    protected $signature = 'workflowmakr:link {model} {--default=0}';
+    protected $signature = 'workflowmakr:link {model} {--default=0} {--conn=0}';
 
     /**
      * The console command description.
@@ -43,13 +42,24 @@ class LinkModel extends Command
         $model = app($this->argument('model'));
         $table = $model->getTable();
         $default_status = $this->option('default');
-        Schema::table($table, function (Blueprint $table) use ($default_status) {
-            if ($default_status != 0) {
-                $table->unsignedBigInteger('status_id')->default($default_status);
-            } else {
-                $table->unsignedBigInteger('status_id')->nullable();
-            }
-        });
+        $conn = $this->option('conn');
+        if ($conn != 0) {
+            Schema::connection($conn)->table($table, function (Blueprint $table) use ($default_status) {
+                if ($default_status != 0) {
+                    $table->unsignedBigInteger('status_id')->default($default_status);
+                } else {
+                    $table->unsignedBigInteger('status_id')->nullable();
+                }
+            });
+        } else {
+            Schema::table($table, function (Blueprint $table) use ($default_status) {
+                if ($default_status != 0) {
+                    $table->unsignedBigInteger('status_id')->default($default_status);
+                } else {
+                    $table->unsignedBigInteger('status_id')->nullable();
+                }
+            });
+        }
         $this->info('Column "status_id" added to ' . $this->argument('model') . ' (' . $table . ')');
         return 0;
     }
