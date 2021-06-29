@@ -47,6 +47,6 @@ class Transition extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(Transition::class, 'predecessor_id', 'id');
+        return $this->hasMany(Transition::class, 'predecessor_id', 'id')->with(['children']);
     }
 }
