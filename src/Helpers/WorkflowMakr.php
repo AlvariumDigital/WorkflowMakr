@@ -3,6 +3,7 @@
 namespace AlvariumDigital\WorkflowMakr\Helpers;
 
 use AlvariumDigital\WorkflowMakr\Models\Status;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -43,9 +44,9 @@ interface WorkflowMakr
     /**
      * Return the possible transitions based on the model current status and scenario id
      *
-     * @return array
+     * @return HasMany
      */
-    public function getNextTransitionsAttribute();
+    public function next_transitions(): HasMany;
 
     /**
      * Return the model's linked workflow scenario id
@@ -58,9 +59,9 @@ interface WorkflowMakr
     /**
      * Get the current status of the model
      *
-     * @return Status|null
+     * @return BelongsTo
      */
-    public function getStatusAttribute();
+    public function status(): BelongsTo;
 
     /**
      * Get the transition performer model class name

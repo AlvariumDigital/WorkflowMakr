@@ -2,6 +2,7 @@
 
 namespace AlvariumDigital\WorkflowMakr;
 
+use AlvariumDigital\WorkflowMakr\Console\Commands\LinkModel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -39,6 +40,7 @@ class WorkflowMakrServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerMigrations();
         $this->registerPublishing();
+        $this->registerCommands();
     }
 
     /**
@@ -81,5 +83,17 @@ class WorkflowMakrServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/database/migrations/' => database_path('migrations')
         ], 'migrations');
+    }
+
+    /**
+     * Register the package's publishable resources
+     *
+     * @return void
+     */
+    protected function registerCommands(): void
+    {
+        $this->commands([
+            LinkModel::class
+        ]);
     }
 }
