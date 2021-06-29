@@ -57,7 +57,7 @@ class ScenarioController extends Controller
      */
     public function show(Scenario $scenario)
     {
-        $scenario->load('transitions');
+        $scenario = Scenario::where('id', $scenario->id)->with(['transitions', 'transitions.children'])->first();
         return response()->json($scenario, 200);
     }
 
