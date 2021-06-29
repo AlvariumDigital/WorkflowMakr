@@ -43,7 +43,7 @@ class LinkModel extends Command
         $table = $model->getTable();
         $default_status = $this->option('default');
         $conn = $this->option('conn');
-        if ($conn != 0) {
+        if ($conn) {
             Schema::connection($conn)->table($table, function (Blueprint $table) use ($default_status) {
                 if ($default_status != 0) {
                     $table->unsignedBigInteger('status_id')->default($default_status);
