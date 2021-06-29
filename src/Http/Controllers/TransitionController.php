@@ -23,6 +23,7 @@ class TransitionController extends Controller
     public function index()
     {
         $query = Transition::query();
+        $query->with(['children']);
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }

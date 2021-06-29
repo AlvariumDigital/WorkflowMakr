@@ -16,7 +16,7 @@ class Transition extends Model
     protected $table = 'workflow_makr_transitions';
     protected $primaryKey = 'id';
 
-    protected $with = ['children', 'old_status', 'new_status', 'action'];
+    protected $with = ['old_status', 'new_status', 'action'];
 
     protected $fillable = ['old_status_id', 'new_status_id', 'scenario_id', 'action_id', 'created_at', 'updated_at'];
 
