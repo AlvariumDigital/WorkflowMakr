@@ -19,7 +19,6 @@ class ScenarioController extends Controller
     public function index()
     {
         $query = Scenario::query();
-        $query->with(['transitions']);
         if (config('workflowmakr.pagination_size') == -1) {
             return response()->json($query->get(), 200);
         }

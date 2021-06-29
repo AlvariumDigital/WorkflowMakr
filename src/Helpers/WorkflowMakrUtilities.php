@@ -5,11 +5,12 @@ namespace AlvariumDigital\WorkflowMakr\Helpers;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionRollbackNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Models\History;
-use AlvariumDigital\WorkflowMakr\Models\ModelStatus;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 
@@ -44,15 +45,8 @@ trait WorkflowMakrUtilities
             ) {
                 $model = app(get_class());
 
-                // Save or update the model's current status
-                $modelStatus = ModelStatus::where('model', get_class())->where('model_id', $this->{$model->getKeyName()})->first();
-                if ($modelStatus == null) {
-                    $modelStatus = new ModelStatus();
-                }
-                $modelStatus->model = get_class();
-                $modelStatus->model_id = $this->{$model->getKeyName()};
-                $modelStatus->status_id = $transition->new_status_id;
-                $modelStatus->save();
+                $this->status_id = $transition->new_status_id;
+                $this->save();
 
                 // Insert a new transition history for this model
                 $history = new History();
@@ -94,15 +88,8 @@ trait WorkflowMakrUtilities
                 $history->delete();
                 $history = $query->first();
             }
-            $model = app(get_class());
-            $modelStatus = ModelStatus::where('model', get_class())->where('model_id', $this->{$model->getKeyName()})->first();
-            if ($modelStatus == null) {
-                $modelStatus = new ModelStatus();
-            }
-            $modelStatus->model = get_class();
-            $modelStatus->model_id = $this->{$model->getKeyName()};
-            $modelStatus->status_id = $history->transition->new_status_id;
-            $modelStatus->save();
+            $this->status_id = $history->transition->new_status_id;
+            $this->save();
         } else {
             throw new TransitionRollbackNotAuthorized('The model has an empty status, cannot rollback');
         }
@@ -121,20 +108,12 @@ trait WorkflowMakrUtilities
 
     /**
      * Return the possible transitions based on the model current status and scenario id
+     *
+     * @return HasMany
      */
-    public function getNextTransitionsAttribute()
+    public function next_transitions(): HasMany
     {
-        if ($this->linkedScenario()) {
-            $query = Transition::query();
-            $query->where('scenario_id', $this->linkedScenario());
-            if ($this->status) {
-                $query->where('old_status_id', $this->status->id);
-            } else {
-                $query->whereNull('old_status_id');
-            }
-            return $query->get();
-        }
-        return collect([]);
+        return $this->hasMany(Transition::class, 'old_status_id', 'status_id')->where('scenario_id', $this->linkedScenario());
     }
 
     /**
@@ -147,7 +126,7 @@ trait WorkflowMakrUtilities
     {
         $scenario = Scenario::where('entity', get_class())->first();
 
-        if(is_null($scenario)){
+        if (is_null($scenario)) {
             return 0;
         }
         return $scenario->id;
@@ -156,15 +135,10 @@ trait WorkflowMakrUtilities
     /**
      * Get the current status of the model
      *
-     * @return Status|null
+     * @return BelongsTo
      */
-    public function getStatusAttribute()
+    public function status(): BelongsTo
     {
-        $model = app(get_class());
-        $modelStatus = ModelStatus::where('model', get_class())->where('model_id', $this->{$model->getKeyName()})->first();
-        if ($modelStatus != null) {
-            return $modelStatus->status;
-        }
-        return null;
+        return $this->belongsTo(Status::class);
     }
 }
