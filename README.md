@@ -1,4 +1,4 @@
-<p align="center"><a href="http://www.alvariumdigital.com/" target="_blank"><img src="http://alvariumdigital.com/portfolio/images/workflow-makr/logo.png" width="600"></a></p>
+<p align="center"><a href="http://www.alvariumgroup.com/" target="_blank"><img src="https://mail-cdn.orpheondigital.com/alvariumgroup/workflowmakr-logo.png" width="600"></a></p>
 <p align="center">
 <a href="https://packagist.org/packages/alvarium-digital/workflow-makr"><img src="https://img.shields.io/packagist/dt/alvarium-digital/workflow-makr" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/alvarium-digital/workflow-makr"><img src="https://img.shields.io/packagist/v/alvarium-digital/workflow-makr" alt="Latest Stable Version"></a>
