@@ -13,7 +13,10 @@ class LinkModel extends Command
      *
      * @var string
      */
-    protected $signature = 'workflowmakr:link {model} {--default=0} {--conn=0}';
+    protected $signature = 'workflowmakr:link-model
+                                {model : The model to link}
+                                {--default=0 : The default value for the "status_id" column}
+                                {--conn=0 : The connection name if non default used}';
 
     /**
      * The console command description.
