@@ -141,4 +141,18 @@ trait WorkflowMakrUtilities
     {
         return $this->belongsTo(Status::class);
     }
+
+    /**
+     * Get the latest transition history color
+     *
+     * @return string
+     */
+    public function getTransitionColorAttribute(): string
+    {
+        $color = 'transparent';
+        if ($this->histories) {
+            $color = $this->histories->last()->transition->color ?? 'transparent';
+        }
+        return $color;
+    }
 }
