@@ -3,6 +3,7 @@
 namespace AlvariumDigital\WorkflowMakr;
 
 use AlvariumDigital\WorkflowMakr\Console\Commands\LinkModel;
+use AlvariumDigital\WorkflowMakr\Console\Commands\LinkScenario;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -93,7 +94,8 @@ class WorkflowMakrServiceProvider extends ServiceProvider
     protected function registerCommands(): void
     {
         $this->commands([
-            LinkModel::class
+            LinkModel::class,
+            LinkScenario::class
         ]);
     }
 }

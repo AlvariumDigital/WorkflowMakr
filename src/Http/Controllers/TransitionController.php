@@ -84,6 +84,7 @@ class TransitionController extends Controller
         $transition->new_status_id = $new_status->id;
         $transition->action_id = $action->id;
         $transition->predecessor_id = $request->json()->get('predecessor_id');
+        $transition->color = $request->json()->get('color');
         $transition->save();
         return response()->json($transition, 200);
     }
@@ -153,6 +154,7 @@ class TransitionController extends Controller
         $transition->new_status_id = $new_status->id;
         $transition->action_id = $action->id;
         $transition->predecessor_id = $request->json()->get('predecessor_id');
+        $transition->color = $request->json()->get('color');
         $transition->save();
         return response()->json($transition, 200);
     }

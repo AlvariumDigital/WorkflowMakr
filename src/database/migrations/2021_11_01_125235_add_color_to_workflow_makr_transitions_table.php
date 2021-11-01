@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEntityToWorkflowMakrScenariosTable extends Migration
+class AddColorToWorkflowMakrTransitionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddEntityToWorkflowMakrScenariosTable extends Migration
      */
     public function up()
     {
-        Schema::table('workflow_makr_scenarios', function (Blueprint $table) {
-            $table->string('entity')->nullable();
+        Schema::table('workflow_makr_transitions', function (Blueprint $table) {
+            $table->string('color')->default('transparent')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddEntityToWorkflowMakrScenariosTable extends Migration
      */
     public function down()
     {
-        Schema::table('workflow_makr_scenarios', function (Blueprint $table) {
-            $table->dropColumn('entity');
+        Schema::table('workflow_makr_transitions', function (Blueprint $table) {
+            $table->dropColumn('color');
         });
     }
 }
