@@ -15,7 +15,7 @@ class LinkScenario extends Command
     protected $signature = 'workflowmakr:link-scenario
                                 {model : The namespace of the model to link}
                                 {scenario : The scenario ID}
-                                {--conn=0 : The connection name if non default used}';
+                                {--conn=0 : The connection name if non default used} ';
 
     /**
      * The console command description.
