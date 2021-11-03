@@ -5,6 +5,7 @@ namespace AlvariumDigital\WorkflowMakr\Helpers;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Exceptions\TransitionRollbackNotAuthorized;
 use AlvariumDigital\WorkflowMakr\Models\History;
+use AlvariumDigital\WorkflowMakr\Models\Permission;
 use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -113,7 +115,17 @@ trait WorkflowMakrUtilities
      */
     public function next_transitions(): HasMany
     {
-        return $this->hasMany(Transition::class, 'old_status_id', 'status_id')->where('scenario_id', $this->linkedScenario());
+        $query = $this->hasMany(Transition::class, 'old_status_id', 'status_id')->where('scenario_id', $this->linkedScenario());
+        if (config('workflowmakr.activate_permissions')) {
+            $permissions = Permission::where('user_id', Auth::user()->id)->pluck('transition_id')->toArray();
+            if (sizeof($permissions) != 0) {
+                $query->whereIn('id', $permissions);
+            } else {
+                // To get an empty list
+                $query->whereNull('id');
+            }
+        }
+        return $query;
     }
 
     /**
