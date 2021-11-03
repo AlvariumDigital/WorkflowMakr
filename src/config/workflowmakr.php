@@ -70,4 +70,17 @@ return [
 
     'user_model' => \App\Models\User::class,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Activate permissions
+    |--------------------------------------------------------------------------
+    |
+    | This value is used to activate or not the permissions system
+    | If activated, the next_transitions on the workflow configured model will
+    | contains only authorized transitions
+    |
+    */
+
+    'activate_permissions' => false,
+
 ];
