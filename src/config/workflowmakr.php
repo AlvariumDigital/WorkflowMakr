@@ -58,4 +58,16 @@ return [
 
     'migrations' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | User model
+    |--------------------------------------------------------------------------
+    |
+    | This value is used by the package to link the permissions system to the
+    | user model
+    |
+    */
+
+    'user_model' => \App\Models\User::class,
+
 ];

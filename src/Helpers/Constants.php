@@ -22,7 +22,8 @@ interface Constants
         "STATUSES" => "workflow_makr_statuses",
         "SCENARIOS" => "workflow_makr_scenarios",
         "TRANSITIONS" => "workflow_makr_transitions",
-        "HISTORIES" => "workflow_makr_histories"
+        "HISTORIES" => "workflow_makr_histories",
+        "PERMISSIONS" => "workflow_makr_permissions"
     ];
 
 }
