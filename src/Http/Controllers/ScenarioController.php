@@ -4,6 +4,7 @@ namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
 use AlvariumDigital\WorkflowMakr\Helpers\Constants;
 use AlvariumDigital\WorkflowMakr\Models\Scenario;
+use AlvariumDigital\WorkflowMakr\Models\Status;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -65,12 +66,13 @@ class ScenarioController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Scenario $scenario
+     * @param int $scenario
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Scenario $scenario)
+    public function update(Request $request, int $scenario)
     {
+        $scenario = Scenario::where('id', $scenario)->first();
         $validator = Validator::make($request->all(), [
             'designation' => 'required|max:255',
             'entity' => 'nullable'
@@ -87,13 +89,14 @@ class ScenarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Scenario $scenario
+     * @param int $scenario
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Scenario $scenario)
+    public function destroy(int $scenario)
     {
+        $scenario = Scenario::where('id', $scenario)->first();
         if ($scenario->transitions()->count() == 0) {
             $scenario->delete();
             return response()->json(['status' => 'success'], 200);
