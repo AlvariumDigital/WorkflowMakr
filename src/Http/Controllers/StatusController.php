@@ -52,13 +52,13 @@ class StatusController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Status $status
+     * @param int $status
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Status $status)
+    public function show(int $status)
     {
-        return response()->json($status, 200);
+        return response()->json(Status::where('id', $status)->first(), 200);
     }
 
     /**
