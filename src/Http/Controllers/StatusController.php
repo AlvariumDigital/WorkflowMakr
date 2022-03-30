@@ -65,12 +65,13 @@ class StatusController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Status $status
+     * @param int $status
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Status $status)
+    public function update(Request $request, int $status)
     {
+        $status = Status::where('id', $status)->first();
         $validator = Validator::make($request->all(), [
             'designation' => 'required|max:255'
         ]);
@@ -86,13 +87,14 @@ class StatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Status $status
+     * @param int $status
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Status $status)
+    public function destroy(int $status)
     {
+        $status = Status::where('id', $status)->first();
         if (Transition::where('old_status_id', $status->id)->orWhere('new_status_id', $status->id)->count() == 0) {
             $status->delete();
             return response()->json(['status' => 'success'], 200);
