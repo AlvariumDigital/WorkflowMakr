@@ -3,6 +3,7 @@
 namespace AlvariumDigital\WorkflowMakr\Http\Controllers;
 
 use AlvariumDigital\WorkflowMakr\Models\Action;
+use AlvariumDigital\WorkflowMakr\Models\Scenario;
 use AlvariumDigital\WorkflowMakr\Models\Transition;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -65,12 +66,13 @@ class ActionController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Action $action
+     * @param int $action
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Action $action)
+    public function update(Request $request, int $action)
     {
+        $action = Action::where('id', $action)->first();
         $validator = Validator::make($request->all(), [
             'designation' => 'required|max:255'
         ]);
@@ -86,13 +88,14 @@ class ActionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Action $action
+     * @param int $action
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Action $action)
+    public function destroy(int $action)
     {
+        $action = Action::where('id', $action)->first();
         if (Transition::where('action_id', $action->id)->count() == 0) {
             $action->delete();
             return response()->json(['status' => 'success'], 200);
