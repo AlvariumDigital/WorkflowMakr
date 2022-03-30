@@ -51,13 +51,13 @@ class ScenarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Scenario $scenario
+     * @param int $scenario
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Scenario $scenario)
+    public function show(int $scenario)
     {
-        $scenario = Scenario::where('id', $scenario->id)->with(['transitions', 'transitions.children'])->first();
+        $scenario = Scenario::where('id', $scenario)->with(['transitions', 'transitions.children'])->first();
         return response()->json($scenario, 200);
     }
 
