@@ -52,13 +52,13 @@ class ActionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Action $action
+     * @param int $action
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Action $action)
+    public function show(int $action)
     {
-        return response()->json($action, 200);
+        return response()->json(Action::where('id', $action)->first(), 200);
     }
 
     /**
