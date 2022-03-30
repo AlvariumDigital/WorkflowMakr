@@ -92,13 +92,13 @@ class TransitionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Transition $transition
+     * @param int $transition
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Transition $transition)
+    public function show(int $transition)
     {
-        $transition = Transition::where('id', $transition->id)->with(['scenario'])->first();
+        $transition = Transition::where('id', $transition)->with(['scenario'])->first();
         return response()->json($transition, 200);
     }
 
