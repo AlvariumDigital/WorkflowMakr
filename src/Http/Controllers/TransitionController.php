@@ -106,12 +106,13 @@ class TransitionController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Transition $transition
+     * @param int $transition
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Transition $transition)
+    public function update(Request $request, int $transition)
     {
+        $transition = Transition::where('id', $transition)->first();
         $validator = Validator::make($request->json()->all(), [
             'old_status' => 'nullable',
             'new_status' => 'required',
@@ -162,13 +163,14 @@ class TransitionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Transition $transition
+     * @param int $transition
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Transition $transition)
+    public function destroy(int $transition)
     {
+        $transition = Transition::where('id', $transition)->first();
         $transitions = $this->transitionIdsToDelete($transition);
         if (History::whereIn('transition_id', $transitions)->count() == 0) {
             Transition::whereIn('id', $transitions)->delete();
